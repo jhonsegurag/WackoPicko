@@ -1,4 +1,4 @@
-name: Standalone CLI
+name: Makes CI
 
 on:
   push:
@@ -12,20 +12,14 @@ jobs:
   machineStandalone:
     runs-on: ubuntu-latest
     steps:
-      # Paso 1: Check out del código fuente
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Paso 2: Ejecutar el escaneo con el contenedor
-      - name: Run Fluid Attacks Scan
-        uses: docker://docker.io/fluidattacks/cli:latest
+      - uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
+      - uses: docker://ghcr.io/fluidattacks/makes:24.09
+        name: wackopicko
         with:
-          args: skims scan .
+          args: sh -c "chown -R root:root /github/workspace && m . /WackoPicko 1 2 3"    
       # Paso 3: Validar código de salida
       - name: Check Scan Result
         run: |
           if [ $? -ne 0 ]; then
             echo "Scan failed. Breaking the build."
             exit 1
-          fi
-Footer
