@@ -16,7 +16,7 @@ jobs:
       - uses: docker://ghcr.io/fluidattacks/makes:24.09
         name: wackopicko
         with:
-          args: sh -c "chown -R root:root /github/workspace && m . /WackoPicko 1 2 3"    
+          args: sh -c "chown -R root:root /github/workspace && m ."    
       # Paso 3: Validar código de salida
       - name: Check Scan Result
         run: |
