@@ -1,0 +1,13 @@
+namespace: WackoPicko
+output: 
+  file_path: ./result.csv
+  format: CSV
+working_dir: .
+language: ES
+strict: true
+sast:
+  include:
+    - .
+sca:
+  include:
+    - .
