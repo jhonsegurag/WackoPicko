@@ -1,25 +1,17 @@
-name: Makes CI
-
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
+name: Standalone CLI
+on: [push, pull_request]
 jobs:
-  machineStandalone:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
-      - uses: docker://ghcr.io/fluidattacks/makes:24.09
-        name: wackopicko
-        with:
-          args: sh -c "chown -R root:root /github/workspace && m ."    
-      # Paso 3: Validar código de salida
-      - name: Check Scan Result
-        run: |
-          if [ $? -ne 0 ]; then
-            echo "Scan failed. Breaking the build."
-            exit 1
+   machineStandalone:
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@f095bcc56b7c2baf48f3ac70d6d6782f4f553222
+         - uses: docker://docker.io/fluidattacks/cli:latest
+           name: machineStandalone
+           with:
+             args: skims scan ./config.yaml
+         - name: artifact
+           if: always()
+           uses: actions/upload-artifact@v3
+           with:
+               name: results
+               path: result.csv
